@@ -1,0 +1,42 @@
+package com.oneself.deserialization;
+
+import com.fasterxml.jackson.databind.JsonNode;
+import com.fasterxml.jackson.databind.ObjectMapper;
+import com.oneself.utils.JacksonUtils;
+import org.apache.flink.api.common.serialization.DeserializationSchema;
+import org.apache.flink.api.common.typeinfo.TypeInformation;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
+import java.io.IOException;
+
+/**
+ * @author liuhuan
+ * date 2025/1/8
+ * packageName com.oneself.deserialization
+ * className JsonNodeDeserializationSchema
+ * description User pojo 类反序列化器
+ * version 1.0
+ */
+public class JsonNodeDeserializationSchema implements DeserializationSchema<JsonNode> {
+
+    private static final Logger log = LoggerFactory.getLogger(JsonNodeDeserializationSchema.class);
+
+    private static final ObjectMapper OBJECT_MAPPER = JacksonUtils.getObjectMapper();
+
+
+    @Override
+    public JsonNode deserialize(byte[] bytes) throws IOException {
+        return OBJECT_MAPPER.readTree(bytes);
+    }
+
+    @Override
+    public boolean isEndOfStream(JsonNode jsonNode) {
+        return false;
+    }
+
+    @Override
+    public TypeInformation<JsonNode> getProducedType() {
+        return TypeInformation.of(JsonNode.class);
+    }
+}
