@@ -13,7 +13,6 @@ import org.apache.flink.streaming.api.datastream.DataStreamSource;
 import org.apache.flink.streaming.api.datastream.SingleOutputStreamOperator;
 import org.apache.flink.streaming.api.environment.StreamExecutionEnvironment;
 import org.apache.flink.streaming.api.windowing.assigners.TumblingEventTimeWindows;
-import org.apache.flink.streaming.api.windowing.time.Time;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -74,7 +73,7 @@ public class EopDataAnalysisEvent {
                         return Tuple2.of(appId, apiId);
                     }
                 })
-                .window(TumblingEventTimeWindows.of(Time.seconds(10))) // 事件时间窗口 1 分钟
+                .window(TumblingEventTimeWindows.of(Duration.ofSeconds(10))) // 事件时间窗口 1 分钟
 //                .allowedLateness(Time.seconds(5))  // 允许迟到 5 秒的数据
                 .process(new EopProcessWindowFunction());
         process.print("结果数据");
