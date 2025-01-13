@@ -5,7 +5,9 @@ import org.apache.doris.flink.cfg.DorisOptions;
 import org.apache.doris.flink.cfg.DorisReadOptions;
 import org.apache.doris.flink.sink.DorisSink;
 import org.apache.doris.flink.sink.writer.serializer.JsonDebeziumSchemaSerializer;
+import org.apache.doris.flink.tools.cdc.mysql.DateToStringConverter;
 import org.apache.flink.api.common.eventtime.WatermarkStrategy;
+import org.apache.flink.api.common.functions.MapFunction;
 import org.apache.flink.cdc.connectors.mysql.source.MySqlSource;
 import org.apache.flink.cdc.connectors.shaded.org.apache.kafka.connect.json.JsonConverterConfig;
 import org.apache.flink.cdc.debezium.JsonDebeziumDeserializationSchema;
@@ -27,21 +29,21 @@ import java.util.UUID;
  */
 public class CDCSchemaChangeExample {
     public static void main(String[] args) throws Exception {
+
         Map<String, Object> customConverterConfigs = new HashMap<>();
         customConverterConfigs.put(JsonConverterConfig.DECIMAL_FORMAT_CONFIG, "numeric");
         JsonDebeziumDeserializationSchema schema =
                 new JsonDebeziumDeserializationSchema(false, customConverterConfigs);
-
 
         MySqlSource<String> mySqlSource =
                 MySqlSource.<String>builder()
                         .hostname("127.0.0.1")
                         .port(3306)
                         .databaseList("test") // set captured database
-                        .tableList("test.t1") // set captured table
-                        .username("root")
-                        .password("123456")
-                        .debeziumProperties(getProperties())
+                        .tableList("test.test_table") // set captured table
+                        .username("liuhuan")
+                        .password("Z6eQaNaitK5vSX")
+                        .debeziumProperties(DateToStringConverter.DEFAULT_PROPS)
                         .deserializer(schema)
                         .serverTimeZone("Asia/Shanghai")
                         .includeSchemaChanges(true) // converts SourceRecord to JSON String
@@ -57,7 +59,7 @@ public class CDCSchemaChangeExample {
         DorisOptions dorisOptions =
                 DorisOptions.builder()
                         .setFenodes("127.0.0.1:8030")
-                        .setTableIdentifier("test.t1")
+                        .setTableIdentifier("test.test_table")
                         .setUsername("root")
                         .setPassword("123456")
                         .build();
@@ -79,20 +81,14 @@ public class CDCSchemaChangeExample {
                                 .build());
 
         env.fromSource(mySqlSource, WatermarkStrategy.noWatermarks(), "MySQL Source") // .print();
+                .map((MapFunction<String, String>) value -> {
+                    // 打印消费到的 Kafka 消息
+                    System.out.println(value);
+                    return value;
+                })
                 .sinkTo(builder.build());
 
         env.execute("Print MySQL Snapshot + Binlog");
     }
 
-    private static Properties getProperties() {
-        Properties properties = new Properties();
-        properties.setProperty("converters", "date");
-        properties.setProperty(
-                "date.type", "org.apache.doris.flink.utils.DateToStringConverter");
-        properties.setProperty("date.format.date", "yyyy-MM-dd");
-        properties.setProperty("date.format.datetime", "yyyy-MM-dd HH:mm:ss");
-        properties.setProperty("date.format.timestamp", "yyyy-MM-dd HH:mm:ss");
-        properties.setProperty("date.format.timestamp.zone", "UTC");
-        return properties;
-    }
 }

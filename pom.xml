@@ -19,6 +19,7 @@
         <flink.kafka.version>3.4.0-1.20</flink.kafka.version>
         <flink.doris.version>24.0.1</flink.doris.version>
         <flink.sql.cdc.version>3.2.1</flink.sql.cdc.version>
+        <mysql.driver.version>8.0.33</mysql.driver.version>
     </properties>
 
     <dependencies>
@@ -131,6 +132,13 @@
                     <groupId>org.apache.flink</groupId>
                 </exclusion>
             </exclusions>
+        </dependency>
+
+        <!-- MySQL 驱动 -->
+        <dependency>
+            <groupId>mysql</groupId>
+            <artifactId>mysql-connector-java</artifactId>
+            <version>${mysql.driver.version}</version>
         </dependency>
 
     </dependencies>
