@@ -33,10 +33,21 @@ public class EopDataAnalysisEvent {
         // 1. 创建执行环境
         StreamExecutionEnvironment env = StreamExecutionEnvironment.getExecutionEnvironment();
 
+
+        // 使用 Socket 模拟数据，没有并非度问题
+        /*SingleOutputStreamOperator<JsonNode> streamSource = env
+                .socketTextStream("127.0.0.1", 7777)
+                .map(((MapFunction<String, JsonNode>) s -> JacksonUtils.fromJson(s, JsonNode.class)));
+
+        streamSource.print("socket");*/
+
+        env.setParallelism(1); // 设置并行度
+        // 消费分区数为 1 的 topic liuhuan-test-topic4， 并行度设置为 1 正常，设置为其它失败
+        // 改为消费分区数为 2 的 topic liuhuan-test-topic6，并行度设置为 1 和 2 均正常，超过 2 则失败
         // 2. 配置 Kafka 数据源
         KafkaSource<JsonNode> kafkaSource = KafkaSource.<JsonNode>builder()
                 .setBootstrapServers("192.168.199.105:9092") // Kafka 的 broker 地址
-                .setTopics("liuhuan-test-topic4")             // Kafka 主题
+                .setTopics("liuhuan-test-topic6")             // Kafka 主题
                 .setGroupId("test")                           // 消费者组 ID
                 .setStartingOffsets(OffsetsInitializer.latest()) // 从最新偏移量开始消费
                 .setValueOnlyDeserializer(new JsonNodeDeserializationSchema()) // 自定义反序列化器
@@ -53,12 +64,11 @@ public class EopDataAnalysisEvent {
                 .<JsonNode>forBoundedOutOfOrderness(Duration.ofSeconds(5)) // 允许 5 秒的乱序数据
                 .withTimestampAssigner((element, recordTimestamp) -> {
                     if (element.has("sendReqTime")) {
-                        log.info("数据: {}, 记录时间: {}", element, recordTimestamp);
-//                        return element.get("sendReqTime").asLong();
-                        return recordTimestamp;
+                        log.info("消息中存在 sendReqTime 字段: {}", element);
+                        return element.get("sendReqTime").asLong();
                     } else {
                         log.warn("消息中缺少 sendReqTime 字段: {}", element);
-                        return recordTimestamp; // 或者使用当前系统时间
+                        return recordTimestamp;
                     }
                 });
         SingleOutputStreamOperator<JsonNode> events = streamSource.assignTimestampsAndWatermarks(watermarkStrategy);
