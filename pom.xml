@@ -113,6 +113,13 @@
             <version>${flink.kafka.version}</version>
         </dependency>
 
+        <!-- https://mvnrepository.com/artifact/org.apache.bahir/flink-connector-redis -->
+        <dependency>
+            <groupId>org.apache.bahir</groupId>
+            <artifactId>flink-connector-redis_2.12</artifactId>
+            <version>1.1.0</version>
+        </dependency>
+
         <!-- Doris 连接器，用于集成 Apache Doris -->
         <dependency>
             <groupId>org.apache.doris</groupId>
@@ -132,6 +139,12 @@
                     <groupId>org.apache.flink</groupId>
                 </exclusion>
             </exclusions>
+        </dependency>
+
+        <dependency>
+            <groupId>redis.clients</groupId>
+            <artifactId>jedis</artifactId>
+            <version>4.2.3</version> <!-- 使用合适的版本 -->
         </dependency>
 
         <!-- MySQL 驱动 -->
