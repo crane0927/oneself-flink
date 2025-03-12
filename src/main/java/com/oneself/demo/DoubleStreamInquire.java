@@ -54,7 +54,26 @@ public class DoubleStreamInquire {
                 + " 'password' = 'Z6eQaNaitK5vSX',"
                 + " 'driver' = 'com.mysql.cj.jdbc.Driver'"
                 + ")";
-        tableEnv.executeSql(mysqlDDL);
+//        tableEnv.executeSql(mysqlDDL);
+
+        // MySQL CDC 源表定义，流式处理
+        String mysqlCDCSourceDDL = "CREATE TABLE mysql_table ("
+                + " id INT NOT NULL,"
+                + " ip VARCHAR(255) NOT NULL,"
+                + " port VARCHAR(255) NOT NULL,"
+                + " PRIMARY KEY (id) NOT ENFORCED"
+                + ") WITH ("
+                + " 'connector' = 'mysql-cdc',"
+                + " 'hostname' = 'localhost',"
+                + " 'port' = '3306',"
+                + " 'username' = 'liuhuan',"
+                + " 'password' = 'Z6eQaNaitK5vSX',"
+                + " 'database-name' = 'test',"
+                + " 'table-name' = 'double_stream_mysql',"
+                + " 'server-id' = '12345',"
+                + " 'debezium.snapshot.mode' = 'initial' "
+                + ")";
+        tableEnv.executeSql(mysqlCDCSourceDDL);
 
         // SQL 查询
         String query = "SELECT " +
@@ -70,6 +89,8 @@ public class DoubleStreamInquire {
                 "TUMBLE(k.ts, INTERVAL '1' MINUTE), " +
                 "k.ip, " +
                 "k.port;";
+
+        query = "select * from mysql_table";
 
 
         TableResult tableResult = tableEnv.executeSql(query);
