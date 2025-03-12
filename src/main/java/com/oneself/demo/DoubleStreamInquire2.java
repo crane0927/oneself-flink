@@ -10,7 +10,7 @@ import org.apache.flink.table.api.bridge.java.StreamTableEnvironment;
  * date 2025/3/11
  * packageName com.oneself.demo
  * className DoubleStreamInquire
- * description 双 Kafka 双流数据聚合查询
+ * description 双 Kafka 双流数据聚合查询 flink sql 实现
  * version 1.0
  */
 public class DoubleStreamInquire2 {
