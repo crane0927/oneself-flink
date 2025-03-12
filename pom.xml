@@ -17,6 +17,8 @@
         <jackson.version>2.18.2</jackson.version>
         <log4j.version>2.20.0</log4j.version>
         <flink.kafka.version>3.4.0-1.20</flink.kafka.version>
+        <!-- 1.20 版本的还没有 -->
+        <flink.connector.jdbc.version>3.2.0-1.19</flink.connector.jdbc.version>
         <flink.doris.version>24.0.1</flink.doris.version>
         <flink.sql.cdc.version>3.2.1</flink.sql.cdc.version>
         <mysql.driver.version>8.0.33</mysql.driver.version>
@@ -71,10 +73,25 @@
             <scope>provided</scope>
         </dependency>
 
+        <!-- Flink 运行时 Web 服务器，用于提供 Web UI 和 REST API -->
+        <dependency>
+            <groupId>org.apache.flink</groupId>
+            <artifactId>flink-runtime-web</artifactId>
+            <version>${flink.version}</version>
+            <scope>provided</scope>
+        </dependency>
+
         <!-- Flink 文件连接器，用于处理文件作为数据源或目标 -->
         <dependency>
             <groupId>org.apache.flink</groupId>
             <artifactId>flink-connector-files</artifactId>
+            <version>${flink.version}</version>
+        </dependency>
+
+        <!-- Flink JSON 处理依赖 -->
+        <dependency>
+            <groupId>org.apache.flink</groupId>
+            <artifactId>flink-json</artifactId>
             <version>${flink.version}</version>
         </dependency>
 
@@ -83,13 +100,6 @@
             <groupId>org.apache.logging.log4j</groupId>
             <artifactId>log4j-slf4j-impl</artifactId>
             <version>${log4j.version}</version>
-        </dependency>
-
-        <!-- Flink JSON 处理依赖 -->
-        <dependency>
-            <groupId>org.apache.flink</groupId>
-            <artifactId>flink-json</artifactId>
-            <version>${flink.version}</version>
         </dependency>
 
         <!-- Jackson 的 JSON 数据绑定库，用于 JSON 数据处理 -->
@@ -113,11 +123,18 @@
             <version>${flink.kafka.version}</version>
         </dependency>
 
-        <!-- https://mvnrepository.com/artifact/org.apache.bahir/flink-connector-redis -->
+        <!-- https://mvnrepository.com/artifact/org.apache.flink/flink-connector-jdbc -->
         <dependency>
-            <groupId>org.apache.bahir</groupId>
-            <artifactId>flink-connector-redis_2.12</artifactId>
-            <version>1.1.0</version>
+            <groupId>org.apache.flink</groupId>
+            <artifactId>flink-connector-jdbc</artifactId>
+            <version>${flink.connector.jdbc.version}</version>
+        </dependency>
+
+        <!-- MySQL JDBC Driver -->
+        <dependency>
+            <groupId>mysql</groupId>
+            <artifactId>mysql-connector-java</artifactId>
+            <version>${mysql.driver.version}</version>
         </dependency>
 
         <!-- Doris 连接器，用于集成 Apache Doris -->
@@ -147,12 +164,6 @@
             <version>4.2.3</version> <!-- 使用合适的版本 -->
         </dependency>
 
-        <!-- MySQL 驱动 -->
-        <dependency>
-            <groupId>mysql</groupId>
-            <artifactId>mysql-connector-java</artifactId>
-            <version>${mysql.driver.version}</version>
-        </dependency>
 
     </dependencies>
 
