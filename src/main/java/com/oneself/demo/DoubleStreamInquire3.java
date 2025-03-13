@@ -3,6 +3,7 @@ package com.oneself.demo;
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.databind.node.ObjectNode;
+import com.oneself.demo.serialization.JsonNodeSerializationSchema;
 import com.oneself.deserialization.JsonNodeDeserializationSchema;
 import com.oneself.utils.JacksonUtils;
 import org.apache.flink.api.common.eventtime.WatermarkStrategy;
@@ -15,6 +16,8 @@ import org.apache.flink.api.common.typeinfo.TypeInformation;
 import org.apache.flink.api.java.functions.KeySelector;
 import org.apache.flink.api.java.tuple.Tuple2;
 import org.apache.flink.configuration.Configuration;
+import org.apache.flink.connector.kafka.sink.KafkaRecordSerializationSchema;
+import org.apache.flink.connector.kafka.sink.KafkaSink;
 import org.apache.flink.connector.kafka.source.KafkaSource;
 import org.apache.flink.connector.kafka.source.enumerator.initializer.OffsetsInitializer;
 import org.apache.flink.streaming.api.datastream.DataStreamSource;
@@ -28,6 +31,7 @@ import java.time.Duration;
 import java.time.Instant;
 import java.time.ZoneId;
 import java.time.format.DateTimeFormatter;
+
 /**
  * @author liuhuan
  * date 2025/3/12
@@ -77,11 +81,11 @@ public class DoubleStreamInquire3 {
         SingleOutputStreamOperator<JsonNode> events2 = streamSource2.assignTimestampsAndWatermarks(watermarkStrategy);
 
 
-        // 按 Tuple2<ip, port>  进行 KeyBy
+        // 按 Tuple2<ip, port>  进行 KeyBy 不能用 lambada 表达式，会报错
         KeyedStream<JsonNode, Tuple2<String, String>> keyedStream1 = events1.keyBy(
                 new KeySelector<JsonNode, Tuple2<String, String>>() {
                     @Override
-                    public Tuple2<String, String> getKey(JsonNode jsonNode) throws Exception {
+                    public Tuple2<String, String> getKey(JsonNode jsonNode) {
                         return Tuple2.of(jsonNode.get("ip").asText(), jsonNode.get("port").asText());
                     }
                 }
@@ -90,7 +94,7 @@ public class DoubleStreamInquire3 {
         KeyedStream<JsonNode, Tuple2<String, String>> keyedStream2 = events2.keyBy(
                 new KeySelector<JsonNode, Tuple2<String, String>>() {
                     @Override
-                    public Tuple2<String, String> getKey(JsonNode jsonNode) throws Exception {
+                    public Tuple2<String, String> getKey(JsonNode jsonNode) {
                         return Tuple2.of(jsonNode.get("ip").asText(), jsonNode.get("port").asText());
                     }
                 }
@@ -100,7 +104,18 @@ public class DoubleStreamInquire3 {
                 .connect(keyedStream2)
                 .process(new MatchDetectProcessFunction());
 
-        unmatchedRecords.print();
+
+        // 创建 Kafka Sink，将 unmatchedRecords 推送到目标 Kafka
+        KafkaSink<JsonNode> kafkaSink = KafkaSink.<JsonNode>builder()
+                .setBootstrapServers("192.168.199.105:9092")
+                .setRecordSerializer(KafkaRecordSerializationSchema.builder()
+                        .setTopic("liuhuan-test-topic3")
+                        .setValueSerializationSchema(new JsonNodeSerializationSchema())
+                        .build())
+                .build();
+
+        // 将 unmatchedRecords 发送到 Kafka
+        unmatchedRecords.sinkTo(kafkaSink);
 
         env.execute();
     }
@@ -229,9 +244,9 @@ public class DoubleStreamInquire3 {
          * 当定时器触发时，检查 (ip, port) 是否在 Source2 中出现过，
          * 如果未匹配到，则输出该 (ip, port) 及其原始时间戳。
          *
-         * @param timestamp  触发定时器的时间戳
-         * @param ctx        定时器上下文
-         * @param out        输出收集器
+         * @param timestamp 触发定时器的时间戳
+         * @param ctx       定时器上下文
+         * @param out       输出收集器
          * @throws Exception 如果状态访问失败
          */
         @Override

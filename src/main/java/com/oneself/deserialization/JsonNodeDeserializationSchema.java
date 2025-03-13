@@ -15,7 +15,7 @@ import java.io.IOException;
  * date 2025/1/8
  * packageName com.oneself.deserialization
  * className JsonNodeDeserializationSchema
- * description User pojo 类反序列化器
+ * description JsonNode 反序列化器
  * version 1.0
  */
 public class JsonNodeDeserializationSchema implements DeserializationSchema<JsonNode> {
