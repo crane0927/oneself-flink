@@ -44,7 +44,7 @@ public class RedisRuleAutoProcessing {
         String taskId = "task_id";
         try {
             // 3. 从 Redis 获取 Kafka 数据源的字段信息
-            String sourceFields = RedisUtils.get(taskId + "_fields");
+            String sourceFields = RedisUtils.getString(taskId + "_fields");
             if (sourceFields == null || sourceFields.isEmpty()) {
                 throw new IllegalStateException("Redis 获取数据源建表字段为空");
             }
@@ -56,12 +56,12 @@ public class RedisRuleAutoProcessing {
             tableEnv.executeSql(kafkaSourceDDL);
 
             // 5. 获取 Redis 中的任务 ID 规则集合
-            Set<String> taskIdRules = RedisUtils.getSet(taskId + "_rules");
+            Set<String> taskIdRules = RedisUtils.getSetMembers(taskId + "_rules");
             if (taskIdRules != null) {
                 // 6. 遍历任务 ID 规则
                 for (String taskIdRule : taskIdRules) {
                     // 获取每个任务规则的配置信息
-                    Map<String, String> map = RedisUtils.hgetAll(taskIdRule);
+                    Map<String, String> map = RedisUtils.getHashAll(taskIdRule);
                     if (map != null) {
                         // 7. 从 Redis 中读取要创建的字段和 SQL 查询语句
                         String sinkFields = map.get("fields"); // 获取目标 Kafka 表字段

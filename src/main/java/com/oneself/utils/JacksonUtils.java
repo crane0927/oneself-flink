@@ -7,6 +7,8 @@ import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.databind.SerializationFeature;
 import com.fasterxml.jackson.datatype.jsr310.JavaTimeModule;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import java.util.List;
 
@@ -21,6 +23,8 @@ import java.util.List;
  * version 1.0
  */
 public class JacksonUtils {
+
+    private static final Logger log = LoggerFactory.getLogger(JacksonUtils.class);
 
     private static final ObjectMapper OBJECT_MAPPER;
 
