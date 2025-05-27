@@ -3,6 +3,7 @@ package com.oneself.demo.eop.sql;
 
 import com.oneself.demo.eop.common.CommonSQL;
 import com.oneself.model.enums.KafkaPropertiesEnum;
+import com.oneself.model.enums.OneselfPropertiesEnum;
 import com.oneself.utils.OneselfPropertiesUtils;
 import org.apache.commons.lang3.ObjectUtils;
 import org.apache.flink.api.java.utils.ParameterTool;
@@ -25,7 +26,7 @@ public class EopDataAnalysisEventSQL {
         StreamExecutionEnvironment env = StreamExecutionEnvironment.getExecutionEnvironment();
 
         // 并行度设置
-        String parallelismEventTime = parameterTool.get(OneselfPropertiesUtils.PARALLELISM_EVENT_TIME);
+        String parallelismEventTime = parameterTool.get(OneselfPropertiesEnum.PARALLELISM_EVENT_TIME.getKey());
         if (ObjectUtils.isNotEmpty(parallelismEventTime)) {
             env.setParallelism(Integer.parseInt(parallelismEventTime));
         }

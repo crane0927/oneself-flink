@@ -17,10 +17,6 @@ import java.io.IOException;
 public class OneselfPropertiesUtils {
     private static final Logger log = LoggerFactory.getLogger(OneselfPropertiesUtils.class);
 
-
-
-    public static final String PARALLELISM_EVENT_TIME = "parallelism.eventTime"; // 事件窗口并行度
-
     public static ParameterTool initParameter(String[] args) {
         ParameterTool parameterTool;
         try {

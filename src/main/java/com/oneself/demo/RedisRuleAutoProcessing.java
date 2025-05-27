@@ -1,6 +1,10 @@
 package com.oneself.demo;
 
-import com.oneself.utils.RedisUtils;
+import com.oneself.ops.RedisOps;
+import com.oneself.ops.RedisOpsFactory;
+import com.oneself.properties.RedisProperties;
+import com.oneself.utils.OneselfPropertiesUtils;
+import org.apache.flink.api.java.utils.ParameterTool;
 import org.apache.flink.streaming.api.environment.StreamExecutionEnvironment;
 import org.apache.flink.table.api.Table;
 import org.apache.flink.table.api.bridge.java.StreamTableEnvironment;
@@ -36,6 +40,7 @@ public class RedisRuleAutoProcessing {
             ");";
 
     public static void main(String[] args) {
+        ParameterTool parameterTool = OneselfPropertiesUtils.initParameter(args);
         // 1. 创建 Flink 流处理执行环境
         StreamExecutionEnvironment env = StreamExecutionEnvironment.getExecutionEnvironment();
         // 2. 创建 Flink 表环境，使用流处理
@@ -43,8 +48,10 @@ public class RedisRuleAutoProcessing {
         // 模拟任务 ID 从启动参数获取
         String taskId = "task_id";
         try {
+            RedisProperties redisProperties = new RedisProperties(parameterTool);
+            RedisOps redisOps = RedisOpsFactory.create(redisProperties);
             // 3. 从 Redis 获取 Kafka 数据源的字段信息
-            String sourceFields = RedisUtils.getString(taskId + "_fields");
+            String sourceFields = redisOps.get(taskId + "_fields");
             if (sourceFields == null || sourceFields.isEmpty()) {
                 throw new IllegalStateException("Redis 获取数据源建表字段为空");
             }
@@ -56,12 +63,14 @@ public class RedisRuleAutoProcessing {
             tableEnv.executeSql(kafkaSourceDDL);
 
             // 5. 获取 Redis 中的任务 ID 规则集合
-            Set<String> taskIdRules = RedisUtils.getSetMembers(taskId + "_rules");
+
+            Set<String> taskIdRules = redisOps.sMembers(taskId + "_rules");
             if (taskIdRules != null) {
                 // 6. 遍历任务 ID 规则
                 for (String taskIdRule : taskIdRules) {
                     // 获取每个任务规则的配置信息
-                    Map<String, String> map = RedisUtils.getHashAll(taskIdRule);
+                    Map<String, String> map = redisOps.hGetAll(taskIdRule);
+
                     if (map != null) {
                         // 7. 从 Redis 中读取要创建的字段和 SQL 查询语句
                         String sinkFields = map.get("fields"); // 获取目标 Kafka 表字段
