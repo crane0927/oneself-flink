@@ -1,6 +1,6 @@
-package com.oneself.common.ops.redis.impl;
+package com.oneself.common.infrastructure.cache.redis.impl;
 
-import com.oneself.common.ops.redis.RedisOps;
+import com.oneself.common.infrastructure.cache.redis.RedisOps;
 import redis.clients.jedis.JedisCluster;
 import redis.clients.jedis.params.SetParams;
 
@@ -9,7 +9,7 @@ import java.util.*;
 /**
  * @author liuhuan
  * date 2025/5/23
- * packageName com.oneself.common.ops.redis.impl
+ * packageName com.oneself.common.infrastructure.cache.redis.impl
  * className JedisClusterOps
  * description
  * version 1.0

@@ -1,7 +1,7 @@
 package com.oneself.demo;
 
-import com.oneself.common.ops.redis.RedisOps;
-import com.oneself.common.ops.redis.RedisOpsFactory;
+import com.oneself.common.infrastructure.cache.redis.RedisOps;
+import com.oneself.common.infrastructure.cache.redis.factory.RedisOpsFactory;
 import com.oneself.common.properties.RedisProperties;
 import com.oneself.common.utils.OneselfPropertiesUtils;
 import org.apache.flink.api.java.utils.ParameterTool;

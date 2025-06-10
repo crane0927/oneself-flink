@@ -1,4 +1,4 @@
-package com.oneself.common.ops.redis;
+package com.oneself.common.infrastructure.cache.redis;
 
 import java.util.List;
 import java.util.Map;
@@ -7,7 +7,7 @@ import java.util.Set;
 /**
  * @author liuhuan
  * date 2025/5/23
- * packageName com.oneself.common.ops
+ * packageName com.oneself.common.infrastructure.cache.redis
  * interfaceName RedisOps
  * description
  * version 1.0
