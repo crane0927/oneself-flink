@@ -1,8 +1,8 @@
-package com.oneself.ops;
+package com.oneself.common.ops.redis;
 
-import com.oneself.ops.impl.JedisClusterOps;
-import com.oneself.ops.impl.JedisPoolOps;
-import com.oneself.properties.RedisProperties;
+import com.oneself.common.ops.redis.impl.JedisClusterOps;
+import com.oneself.common.ops.redis.impl.JedisPoolOps;
+import com.oneself.common.properties.RedisProperties;
 import org.apache.commons.pool2.impl.GenericObjectPoolConfig;
 import redis.clients.jedis.*;
 
@@ -11,7 +11,7 @@ import java.time.Duration;
 /**
  * @author liuhuan
  * date 2025/5/23
- * packageName com.oneself.ops
+ * packageName com.oneself.common.ops
  * className RedisOpsFactory
  * description
  * version 1.0

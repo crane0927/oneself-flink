@@ -1,7 +1,7 @@
 package com.oneself.demo.eop.stream.function;
 
 import com.fasterxml.jackson.databind.JsonNode;
-import com.oneself.utils.JacksonUtils;
+import com.oneself.common.utils.JacksonUtils;
 import org.apache.commons.lang3.time.DateFormatUtils;
 import org.apache.flink.api.java.tuple.Tuple2;
 import org.apache.flink.streaming.api.functions.windowing.ProcessWindowFunction;

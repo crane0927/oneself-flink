@@ -1,7 +1,7 @@
 package com.oneself.demo.source;
 
-import com.oneself.model.enums.KafkaPropertiesEnum;
-import com.oneself.utils.OneselfPropertiesUtils;
+import com.oneself.common.properties.enums.KafkaPropertiesEnum;
+import com.oneself.common.utils.OneselfPropertiesUtils;
 import org.apache.flink.api.common.eventtime.WatermarkStrategy;
 import org.apache.flink.api.common.serialization.SimpleStringSchema;
 import org.apache.flink.api.java.utils.ParameterTool;

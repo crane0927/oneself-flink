@@ -1,8 +1,8 @@
 package com.oneself.demo.eop.stream;
 
 import com.fasterxml.jackson.databind.JsonNode;
+import com.oneself.common.deserialization.JsonNodeDeserializationSchema;
 import com.oneself.demo.eop.stream.function.EopProcessWindowFunction;
-import com.oneself.deserialization.JsonNodeDeserializationSchema;
 import org.apache.flink.api.common.eventtime.WatermarkStrategy;
 import org.apache.flink.api.common.typeinfo.TypeInformation;
 import org.apache.flink.api.java.functions.KeySelector;

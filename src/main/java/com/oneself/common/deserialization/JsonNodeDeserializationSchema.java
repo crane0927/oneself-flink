@@ -1,8 +1,8 @@
-package com.oneself.deserialization;
+package com.oneself.common.deserialization;
 
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
-import com.oneself.utils.JacksonUtils;
+import com.oneself.common.utils.JacksonUtils;
 import org.apache.flink.api.common.serialization.DeserializationSchema;
 import org.apache.flink.api.common.typeinfo.TypeInformation;
 import org.slf4j.Logger;
@@ -13,7 +13,7 @@ import java.io.IOException;
 /**
  * @author liuhuan
  * date 2025/1/8
- * packageName com.oneself.deserialization
+ * packageName com.oneself.common.deserialization
  * className JsonNodeDeserializationSchema
  * description JsonNode 反序列化器
  * version 1.0

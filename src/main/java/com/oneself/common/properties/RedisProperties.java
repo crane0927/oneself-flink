@@ -1,6 +1,6 @@
-package com.oneself.properties;
+package com.oneself.common.properties;
 
-import com.oneself.model.enums.RedisPropertiesEnum;
+import com.oneself.common.properties.enums.RedisPropertiesEnum;
 import org.apache.flink.api.java.utils.ParameterTool;
 import redis.clients.jedis.HostAndPort;
 
@@ -10,7 +10,7 @@ import java.util.Set;
 /**
  * @author liuhuan
  * date 2025/5/23
- * packageName com.oneself.properties
+ * packageName com.oneself.common.properties
  * className RedisProperties
  * description
  * version 1.0

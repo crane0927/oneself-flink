@@ -1,11 +1,11 @@
-package com.oneself.model.enums;
+package com.oneself.common.properties.enums;
 
 /**
  * @author liuhuan
  * date 2025/5/23
- * packageName com.oneself.model.enums
+ * packageName com.oneself.common.properties.enums
  * enumName RedisPropertiesEnum
- * description
+ * description Redis 配置信息枚举 映射 onesel-flink.properties 中的 Redis 相关配置信息
  * version 1.0
  */
 public enum RedisPropertiesEnum {

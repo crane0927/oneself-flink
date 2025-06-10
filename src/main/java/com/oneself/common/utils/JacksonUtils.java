@@ -1,4 +1,4 @@
-package com.oneself.utils;
+package com.oneself.common.utils;
 
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.core.type.TypeReference;
@@ -15,7 +15,7 @@ import java.util.List;
 /**
  * @author liuhuan
  * date 2024/12/30
- * packageName com.oneself.utils
+ * packageName com.oneself.common.utils
  * className JacksonUtils
  * description
  * 单例模式 获取唯一的 ObjectMapper 实例

@@ -1,9 +1,9 @@
-package com.oneself.model.enums;
+package com.oneself.common.properties.enums;
 
 /**
  * @author liuhuan
  * date 2025/1/11
- * packageName com.oneself.model.enums
+ * packageName com.oneself.common.properties.enums
  * enumName KafkaPropertiesEnum
  * description Kafka 配置信息枚举 映射 onesel-flink.properties 中的 Kafka 相关配置信息
  * version 1.0

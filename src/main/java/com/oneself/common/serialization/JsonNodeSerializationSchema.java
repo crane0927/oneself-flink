@@ -1,4 +1,4 @@
-package com.oneself.demo.serialization;
+package com.oneself.common.serialization;
 
 import com.fasterxml.jackson.databind.JsonNode;
 import org.apache.flink.api.common.serialization.SerializationSchema;
@@ -6,7 +6,7 @@ import org.apache.flink.api.common.serialization.SerializationSchema;
 /**
  * @author liuhuan
  * date 2025/3/13
- * packageName com.oneself.demo.serialization
+ * packageName com.oneself.common.serialization
  * className JsonNodeSerializationSchema
  * description JsonNode 序列化器
  * version 1.0

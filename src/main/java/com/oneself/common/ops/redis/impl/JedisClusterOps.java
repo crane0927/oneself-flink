@@ -1,6 +1,6 @@
-package com.oneself.ops.impl;
+package com.oneself.common.ops.redis.impl;
 
-import com.oneself.ops.RedisOps;
+import com.oneself.common.ops.redis.RedisOps;
 import redis.clients.jedis.JedisCluster;
 import redis.clients.jedis.params.SetParams;
 
@@ -9,7 +9,7 @@ import java.util.*;
 /**
  * @author liuhuan
  * date 2025/5/23
- * packageName com.oneself.ops.impl
+ * packageName com.oneself.common.ops.redis.impl
  * className JedisClusterOps
  * description
  * version 1.0

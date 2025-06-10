@@ -1,15 +1,17 @@
-package com.oneself.utils;
+package com.oneself.common.utils;
 
 import org.apache.flink.api.java.utils.ParameterTool;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import java.io.IOException;
+import java.util.HashMap;
+import java.util.Map;
 
 /**
  * @author liuhuan
  * date 2025/1/8
- * packageName com.oneself.utils
+ * packageName com.oneself.common.utils
  * className OneselfPropertiesUtils
  * description 获取 oneslf-flink.properties 配置工具类
  * version 1.0
@@ -22,6 +24,7 @@ public class OneselfPropertiesUtils {
         try {
             // 读取配置文件
             parameterTool = ParameterTool.fromPropertiesFile(args[0]);
+            Map<String, String> parameterMap = new HashMap<>(parameterTool.toMap());
 
             // 读取命令行参数
             log.info(">>>>>>>>> 任务启动参数信息打印开始 <<<<<<<<<");

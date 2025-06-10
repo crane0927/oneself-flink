@@ -2,9 +2,9 @@ package com.oneself.demo.eop.sql;
 
 
 import com.oneself.demo.eop.common.CommonSQL;
-import com.oneself.model.enums.KafkaPropertiesEnum;
-import com.oneself.model.enums.OneselfPropertiesEnum;
-import com.oneself.utils.OneselfPropertiesUtils;
+import com.oneself.common.properties.enums.KafkaPropertiesEnum;
+import com.oneself.common.properties.enums.OneselfPropertiesEnum;
+import com.oneself.common.utils.OneselfPropertiesUtils;
 import org.apache.commons.lang3.ObjectUtils;
 import org.apache.flink.api.java.utils.ParameterTool;
 import org.apache.flink.streaming.api.environment.StreamExecutionEnvironment;

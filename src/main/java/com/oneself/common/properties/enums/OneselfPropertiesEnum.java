@@ -1,9 +1,9 @@
-package com.oneself.model.enums;
+package com.oneself.common.properties.enums;
 
 /**
  * @author liuhuan
  * date 2025/5/26
- * packageName com.oneself.model.enums
+ * packageName com.oneself.common.properties.enums
  * enumName OneselfPropertiesEnum
  * description
  * version 1.0

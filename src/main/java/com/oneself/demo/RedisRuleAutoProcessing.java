@@ -1,9 +1,9 @@
 package com.oneself.demo;
 
-import com.oneself.ops.RedisOps;
-import com.oneself.ops.RedisOpsFactory;
-import com.oneself.properties.RedisProperties;
-import com.oneself.utils.OneselfPropertiesUtils;
+import com.oneself.common.ops.redis.RedisOps;
+import com.oneself.common.ops.redis.RedisOpsFactory;
+import com.oneself.common.properties.RedisProperties;
+import com.oneself.common.utils.OneselfPropertiesUtils;
 import org.apache.flink.api.java.utils.ParameterTool;
 import org.apache.flink.streaming.api.environment.StreamExecutionEnvironment;
 import org.apache.flink.table.api.Table;
