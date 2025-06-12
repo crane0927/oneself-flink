@@ -1,13 +1,13 @@
 package com.oneself.common.utils;
 
-import com.oneself.common.properties.enums.KafkaPropertiesEnum;
+import com.oneself.common.config.enums.KafkaPropertiesEnum;
 import org.apache.flink.api.common.serialization.DeserializationSchema;
+import org.apache.flink.api.common.serialization.SerializationSchema;
 import org.apache.flink.api.java.utils.ParameterTool;
 import org.apache.flink.connector.kafka.sink.KafkaRecordSerializationSchema;
 import org.apache.flink.connector.kafka.sink.KafkaSink;
 import org.apache.flink.connector.kafka.source.KafkaSource;
 import org.apache.flink.connector.kafka.source.enumerator.initializer.OffsetsInitializer;
-import org.apache.flink.api.common.serialization.SerializationSchema;
 import org.apache.kafka.clients.producer.ProducerConfig;
 
 import java.util.Properties;

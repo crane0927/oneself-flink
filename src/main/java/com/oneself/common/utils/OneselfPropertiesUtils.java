@@ -5,8 +5,6 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import java.io.IOException;
-import java.util.HashMap;
-import java.util.Map;
 
 /**
  * @author liuhuan
@@ -24,8 +22,6 @@ public class OneselfPropertiesUtils {
         try {
             // 读取配置文件
             parameterTool = ParameterTool.fromPropertiesFile(args[0]);
-            Map<String, String> parameterMap = new HashMap<>(parameterTool.toMap());
-
             // 读取命令行参数
             log.info(">>>>>>>>> 任务启动参数信息打印开始 <<<<<<<<<");
             parameterTool.toMap().forEach((k, v) -> log.info("{} : {}", k, v));
