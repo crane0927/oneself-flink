@@ -23,11 +23,11 @@ import java.util.UUID;
  * @author liuhuan
  * date 2025/1/3
  * packageName com.oneself.example.doris
- * className CDCSchemaChangeExample
+ * className CDCSchemaChange
  * description
  * version 1.0
  */
-public class CDCSchemaChangeExample {
+public class CDCSchemaChange {
     public static void main(String[] args) throws Exception {
 
         Map<String, Object> customConverterConfigs = new HashMap<>();
