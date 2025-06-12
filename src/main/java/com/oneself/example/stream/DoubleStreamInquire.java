@@ -1,4 +1,4 @@
-package com.oneself.demo;
+package com.oneself.example.stream;
 
 import org.apache.flink.streaming.api.environment.StreamExecutionEnvironment;
 import org.apache.flink.table.api.EnvironmentSettings;
@@ -8,7 +8,7 @@ import org.apache.flink.table.api.bridge.java.StreamTableEnvironment;
 /**
  * @author liuhuan
  * date 2025/3/11
- * packageName com.oneself.demo
+ * packageName com.oneself.example.stream
  * className DoubleStreamInquire
  * description MySQL、Kafka 双流数据聚合查询
  * version 1.0

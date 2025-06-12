@@ -1,4 +1,4 @@
-package com.oneself.demo;
+package com.oneself.example.stream;
 
 import org.apache.flink.api.common.functions.FlatMapFunction;
 import org.apache.flink.api.common.typeinfo.Types;
@@ -11,7 +11,7 @@ import org.apache.flink.util.Collector;
 /**
  * @author liuhuan
  * date 2025/1/8
- * packageName com.oneself.demo
+ * packageName com.oneself.example.stream
  * className SocketStreamWordCount
  * description socket 流处理 文字统计（无界数据）
  * version 1.0

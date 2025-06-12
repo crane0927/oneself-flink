@@ -1,4 +1,4 @@
-package com.oneself.demo;
+package com.oneself.example.stream;
 
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
@@ -35,7 +35,7 @@ import java.time.format.DateTimeFormatter;
 /**
  * @author liuhuan
  * date 2025/3/12
- * packageName com.oneself.demo
+ * packageName com.oneself.example.stream
  * className DoubleStreamInquire
  * description 双 Kafka 双流数据聚合查询 data stream api 实现
  * version 1.0
