@@ -4,15 +4,22 @@ import com.fasterxml.jackson.databind.JsonNode;
 import com.oneself.common.deserialization.JsonNodeDeserializationSchema;
 import com.oneself.common.serialization.JsonNodeSerializationSchema;
 import com.oneself.common.utils.KafkaUtils;
+import com.oneself.job.function.DemoProcessWindowFunction;
 import org.apache.flink.api.common.eventtime.WatermarkStrategy;
 import org.apache.flink.api.common.typeinfo.TypeInformation;
+import org.apache.flink.api.java.functions.KeySelector;
+import org.apache.flink.api.java.tuple.Tuple2;
 import org.apache.flink.api.java.utils.ParameterTool;
 import org.apache.flink.connector.kafka.sink.KafkaSink;
 import org.apache.flink.connector.kafka.source.KafkaSource;
 import org.apache.flink.streaming.api.datastream.DataStreamSource;
+import org.apache.flink.streaming.api.datastream.SingleOutputStreamOperator;
 import org.apache.flink.streaming.api.environment.StreamExecutionEnvironment;
+import org.apache.flink.streaming.api.windowing.assigners.TumblingEventTimeWindows;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+
+import java.time.Duration;
 
 /**
  * @author liuhuan
@@ -47,12 +54,28 @@ public class DemoJob {
 
         // 5. 处理数据逻辑
         // ……
+        // 获取并行度
+        final int parallelism = env.getParallelism();
+        log.info("parallelism: {}", parallelism);
+        SingleOutputStreamOperator<JsonNode> keyByStream = streamSource.keyBy(
+                        new KeySelector<JsonNode, Tuple2<String, Integer>>() {
+                            @Override
+                            public Tuple2<String, Integer> getKey(JsonNode value) {
+                                String ip = value.get("ip").asText();
+                                int salt = Math.abs(ip.hashCode()) % parallelism;
+                                return Tuple2.of(ip, salt);
+                            }
+                        })
+                .window(TumblingEventTimeWindows.of(Duration.ofSeconds(10))) // 按固定时间窗口聚合
+                .process(new DemoProcessWindowFunction());
 
         // 6. 输出结果到 Kafka Sink
         KafkaSink<JsonNode> kafkaSink = KafkaUtils.getKafkaSink(parameterTool, new JsonNodeSerializationSchema());
-        streamSource.sinkTo(kafkaSink);
+        keyByStream.sinkTo(kafkaSink);
 
-        // 7. 执行任务
+        // 7. 输出结果到其它 Sink：Elasticsearch、Redis、HBase、Doris 等
+
+        // 8. 执行任务
         env.execute("Demo Job");
     }
 
